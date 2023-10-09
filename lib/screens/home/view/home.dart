@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:hidden_lamp/screens/HelpCenter/view/HelpCenter.dart';
+import 'package:hidden_lamp/screens/chat/view/chat.dart';
 import 'package:hidden_lamp/utils/MATUtils/MATUtils.dart';
+
+import '../../Notifications/view/Notifications.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -60,58 +64,60 @@ class _HomeState extends State<Home> {
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height / 1.365,
                       color: Colors.blue,
-                      child: Column(children: const [
+                      child: Column(children: [
                         ListTile(
-                          leading: Icon(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const Notifications()));
+                          },
+                          leading: const Icon(
                             Icons.notifications_active_outlined,
                             color: Colors.white,
                           ),
-                          title: Text(
+                          title: const Text(
                             'Notifications',
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
                         ListTile(
-                          leading: Icon(
-                            Icons.settings,
-                            color: Colors.white,
-                          ),
-                          title: Text(
-                            'Settings',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        ListTile(
-                          leading: Icon(
-                            Icons.security,
-                            color: Colors.white,
-                          ),
-                          title: Text(
-                            'Privacy & Security',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        ListTile(
-                          leading: Icon(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const HelpCenter()));
+                          },
+                          leading: const Icon(
                             Icons.help_outline,
                             color: Colors.white,
                           ),
-                          title: Text(
+                          title: const Text(
                             'Help Center',
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
                         ListTile(
-                          leading: Icon(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const ChatWithUS()));
+                          },
+                          leading: const Icon(
                             Icons.support_agent,
                             color: Colors.white,
                           ),
-                          title: Text(
+                          title: const Text(
                             'Chat with us',
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
-                        ListTile(
+                        const ListTile(
+                          leading: Icon(
+                            Icons.security,
+                            color: Colors.white,
+                          ),
+                          title: Text(
+                            'Privacy & Policies',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        const ListTile(
                           leading: Icon(
                             Icons.logout,
                             color: Colors.white,
@@ -129,7 +135,7 @@ class _HomeState extends State<Home> {
                   alignment: Alignment.bottomRight,
                   child: Image(
                     height: MediaQuery.of(context).size.height / 3.5,
-                    image: AssetImage(
+                    image: const AssetImage(
                       'assets/navv-01.png',
                     ),
                   ),
@@ -172,10 +178,19 @@ class _HomeState extends State<Home> {
                         child: Column(
                           children: [
                             CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Colors.red,
-                              backgroundImage:
-                                  AssetImage('assets/${index + 1}-03.png'),
+                              radius: 35,
+                              backgroundColor:
+                                  const Color.fromARGB(255, 189, 189, 185),
+                              child: CircleAvatar(
+                                radius: 33,
+                                backgroundColor:
+                                    const Color.fromARGB(255, 248, 248, 247),
+                                child: CircleAvatar(
+                                  radius: 30,
+                                  backgroundImage:
+                                      AssetImage('assets/s$index.png'),
+                                ),
+                              ),
                             ),
                             const Text(
                               'HL Reels',

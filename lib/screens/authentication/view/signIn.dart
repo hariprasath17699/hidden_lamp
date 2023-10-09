@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hidden_lamp/screens/authentication/controller/signInController.dart';
+import 'package:hidden_lamp/screens/authentication/model/user.dart';
+import 'package:hidden_lamp/screens/authentication/view/forgotPassword.dart';
 import 'package:hidden_lamp/screens/authentication/view/signUp.dart';
 import 'package:hidden_lamp/screens/bottomNavigationBar/view/BottomNavigationBar.dart';
 import 'package:hidden_lamp/utils/MATUtils/MATUtils.dart';
@@ -11,6 +14,8 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController password = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,19 +49,22 @@ class _SignInState extends State<SignIn> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              MATUtils().customText('Phone Number', 22,Colors.white),
+              MATUtils().customText('Phone Number', 22, Colors.white),
               const SizedBox(
                 height: 14,
               ),
-              MATUtils().customTextField(text:'Enter phone number'),
+              MATUtils().customTextField(
+                  text: 'Enter phone number',
+                  controller: phoneNumberController),
               const SizedBox(
                 height: 14,
               ),
-              MATUtils().customText('Password', 22,Colors.white),
+              MATUtils().customText('Password', 22, Colors.white),
               const SizedBox(
                 height: 14,
               ),
-              MATUtils().customTextField(text:'Enter password'),
+              MATUtils().customTextField(
+                  text: 'Enter password', controller: password),
               const SizedBox(
                 height: 16,
               ),
@@ -73,11 +81,18 @@ class _SignInState extends State<SignIn> {
                       });
                     },
                   ),
-                  MATUtils().customText('Keep me signed In', 13,Colors.white),
+                  MATUtils().customText('Keep me signed In', 13, Colors.white),
                   const SizedBox(
                     width: 40,
                   ),
-                  MATUtils().customText('Forgot password?', 13,Colors.white),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                ForgotPassword()));
+                      },
+                      child: MATUtils()
+                          .customText('Forgot password?', 13, Colors.white)),
                   const SizedBox(
                     width: 20,
                   ),
@@ -85,9 +100,22 @@ class _SignInState extends State<SignIn> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          CustomBottomNavigationBar()));
+                  SigninController signinController = SigninController();
+                  User user = User(
+                    address: '',
+                    city: '',
+                    className: '',
+                    guardianName: '',
+                    name: '',
+                    password: password.text,
+                    phoneNumber: phoneNumberController.text,
+                    pincode: '',
+                    rollNumber: '',
+                    school: '',
+                    section: '',
+                    state: '',
+                  );
+                  signinController.handleSignin(user, context);
                 },
                 child: Center(
                   child: Container(
@@ -99,14 +127,15 @@ class _SignInState extends State<SignIn> {
                       color: Color.fromARGB(255, 223, 187, 7),
                       borderRadius: BorderRadius.all(Radius.circular(50)),
                     ),
-                    child: MATUtils().customText('Login', 20,Colors.white),
+                    child: MATUtils().customText('Login', 20, Colors.white),
                   ),
                 ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  MATUtils().customText('Don\'t have a account?    ', 12,Colors.white),
+                  MATUtils().customText(
+                      'Don\'t have a account?    ', 12, Colors.white),
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(

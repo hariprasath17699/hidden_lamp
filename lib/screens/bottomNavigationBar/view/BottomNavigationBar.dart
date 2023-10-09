@@ -2,7 +2,7 @@ import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 
 import 'package:flutter/material.dart';
-import 'package:hidden_lamp/screens/Courses/controller/Courses.dart';
+import 'package:hidden_lamp/screens/Courses/view/Courses.dart';
 import 'package:hidden_lamp/screens/assignments/view/Assignments.dart';
 import 'package:hidden_lamp/screens/home/view/home.dart';
 import 'package:hidden_lamp/screens/profile/view/profile.dart';

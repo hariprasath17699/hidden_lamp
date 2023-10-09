@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hidden_lamp/screens/Courses/view/ViewCourse.dart';
 
 import '../../../utils/MATUtils/MATUtils.dart';
 
@@ -138,60 +139,69 @@ class _CoursesState extends State<Courses> {
                                 ),
                               )
                             : Container(),
-                        Container(
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 6),
-                          padding: const EdgeInsets.all(8),
-                          height: MediaQuery.of(context).size.height / 6.3,
-                          decoration: BoxDecoration(
-                            color: colors[index],
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(25)),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Center(
-                                    child: Image.asset(
-                                      'assets/l${index + 3}.png',
-                                      fit: BoxFit.fitWidth,
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              10,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    ViewCourse()));
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 6),
+                            padding: const EdgeInsets.all(8),
+                            height: MediaQuery.of(context).size.height / 6.3,
+                            decoration: BoxDecoration(
+                              color: colors[index],
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(25)),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Center(
+                                      child: Image.asset(
+                                        'assets/l${index + 3}.png',
+                                        fit: BoxFit.fitWidth,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                10,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  MATUtils().customText(
-                                      "Artificial Intelligence",
-                                      15,
-                                      Colors.white),
-                                  const SizedBox(
-                                    height: 4,
-                                  ),
-                                  MATUtils().customText(
-                                      "Artificial Intelligence is powerful\nTechnology",
-                                      11,
-                                      Colors.white),
-                                  const SizedBox(
-                                    height: 4,
-                                  ),
-                                  MATUtils().customText(
-                                      "Completed: $index/10", 15, Colors.white),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    MATUtils().customText(
+                                        "Artificial Intelligence",
+                                        15,
+                                        Colors.white),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                    MATUtils().customText(
+                                        "Artificial Intelligence is powerful\nTechnology",
+                                        11,
+                                        Colors.white),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                    MATUtils().customText(
+                                        "Completed: $index/10",
+                                        15,
+                                        Colors.white),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],

@@ -1,4 +1,7 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:hidden_lamp/screens/authentication/controller/signupController.dart';
+import 'package:hidden_lamp/screens/authentication/model/user.dart';
 import 'package:hidden_lamp/screens/authentication/view/signIn.dart';
 
 import '../../../utils/MATUtils/MATUtils.dart';
@@ -15,15 +18,42 @@ class _SignUpState extends State<SignUp> {
   TextEditingController rollNumberController = TextEditingController();
   TextEditingController gurdianNameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController classController = TextEditingController();
-  TextEditingController sectionController = TextEditingController();
-  TextEditingController schoolController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController stateController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController pincodeController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  String schoolName = 'Select Option';
+  String classNumber = 'Select Option';
+  String section = 'Select Option';
+  var schools = [
+    'Select Option',
+    'Sri datta high School',
+    'United Mission School',
+    'Baldwin Girls High School',
+    'St. Josephs Boys High School',
+    'National High School',
+  ];
+  var classes = [
+    'Select Option',
+    '1st class',
+    '2nd class',
+    '3rd class',
+    '4th class',
+    '5th class',
+    '6th class',
+    '7th class',
+    '8th class',
+    '9th class',
+    '10th class',
+  ];
+  var sections = [
+    'Select Option',
+    'A',
+    'B',
+    'C',
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +104,7 @@ class _SignUpState extends State<SignUp> {
                     controller: rollNumberController,
                     text: 'Enter Roll Number'),
                 const SizedBox(
-                  height: 16,
+                  height: 14,
                 ),
                 MATUtils().customText('Guardians name', 17, Colors.white),
                 const SizedBox(
@@ -94,14 +124,44 @@ class _SignUpState extends State<SignUp> {
                     controller: phoneNumberController,
                     text: 'Enter phone number'),
                 const SizedBox(
-                  height: 16,
+                  height: 14,
                 ),
                 MATUtils().customText('Class', 17, Colors.white),
                 const SizedBox(
                   height: 14,
                 ),
-                MATUtils().customTextField(
-                    controller: classController, text: 'Enter Class'),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+
+                  // dropdown below..
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    value: classNumber,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        classNumber = newValue!;
+                      });
+                    },
+                    items: classes
+                        .map<DropdownMenuItem<String>>(
+                            (String value) => DropdownMenuItem<String>(
+                                  value: value,
+                                  child: SizedBox(
+                                    child: Text(
+                                      value,
+                                    ),
+                                  ),
+                                ))
+                        .toList(),
+                    icon: const Icon(Icons.arrow_drop_down),
+                    iconSize: 42,
+                    underline: SizedBox(),
+                  ),
+                ),
                 const SizedBox(
                   height: 14,
                 ),
@@ -109,8 +169,38 @@ class _SignUpState extends State<SignUp> {
                 const SizedBox(
                   height: 14,
                 ),
-                MATUtils().customTextField(
-                    controller: sectionController, text: 'Enter section'),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+
+                  // dropdown below..
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    value: section,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        section = newValue!;
+                      });
+                    },
+                    items: sections
+                        .map<DropdownMenuItem<String>>(
+                            (String value) => DropdownMenuItem<String>(
+                                  value: value,
+                                  child: SizedBox(
+                                    child: Text(
+                                      value,
+                                    ),
+                                  ),
+                                ))
+                        .toList(),
+                    icon: const Icon(Icons.arrow_drop_down),
+                    iconSize: 42,
+                    underline: SizedBox(),
+                  ),
+                ),
                 const SizedBox(
                   height: 16,
                 ),
@@ -118,8 +208,38 @@ class _SignUpState extends State<SignUp> {
                 const SizedBox(
                   height: 14,
                 ),
-                MATUtils().customTextField(
-                    controller: schoolController, text: 'Enter School name'),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+
+                  // dropdown below..
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    value: schoolName,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        schoolName = newValue!;
+                      });
+                    },
+                    items: schools
+                        .map<DropdownMenuItem<String>>(
+                            (String value) => DropdownMenuItem<String>(
+                                  value: value,
+                                  child: SizedBox(
+                                    child: Text(
+                                      value,
+                                    ),
+                                  ),
+                                ))
+                        .toList(),
+                    icon: const Icon(Icons.arrow_drop_down),
+                    iconSize: 42,
+                    underline: SizedBox(),
+                  ),
+                ),
                 const SizedBox(
                   height: 14,
                 ),
@@ -177,6 +297,12 @@ class _SignUpState extends State<SignUp> {
                     text: 'Enter confirm password'),
                 GestureDetector(
                   onTap: () {
+                    if (passwordController.text !=
+                        confirmPasswordController.text) {
+                      MATUtils()
+                          .showToast(context, 'Both passwords should be equal');
+                      return;
+                    }
                     showDialog<String>(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
@@ -197,6 +323,21 @@ class _SignUpState extends State<SignUp> {
                                     )
                                   ]),
                             ));
+                    User user = User(
+                        address: addressController.text,
+                        city: cityController.text,
+                        className: classNumber,
+                        guardianName: gurdianNameController.text,
+                        name: nameController.text,
+                        password: passwordController.text,
+                        phoneNumber: phoneNumberController.text,
+                        pincode: pincodeController.text,
+                        rollNumber: rollNumberController.text,
+                        school: schoolName,
+                        section: section,
+                        state: stateController.text);
+                    SignupController signupController = SignupController();
+                    signupController.handleSignup(user, context);
                   },
                   child: Center(
                     child: Container(
