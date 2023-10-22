@@ -122,6 +122,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           .showToast(context, 'Both passwords should be equal');
                       return;
                     }
+                    if (passwordController.text == '' ||
+                        confirmPasswordController.text == '' ||
+                        passwordController.text == null ||
+                        confirmPasswordController.text == null) {
+                      MATUtils().showToast(context, 'Password can\'t be null ');
+                      return;
+                    }
                     ForgotPasswordController().resetPassword(
                         phoneController.text,
                         passwordController.text,

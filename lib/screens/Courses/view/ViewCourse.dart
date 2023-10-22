@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:hidden_lamp/utils/MATUtils/MATUtils.dart';
+import 'package:hidden_lamp/utils/Webview/webview.dart';
 
 class ViewCourse extends StatefulWidget {
-  const ViewCourse({Key? key}) : super(key: key);
+  const ViewCourse({Key? key, required this.courses}) : super(key: key);
+  final courses;
 
   @override
   State<ViewCourse> createState() => _ViewCourseState();
 }
 
 class _ViewCourseState extends State<ViewCourse> {
+  bool isPlayListSlected = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +27,8 @@ class _ViewCourseState extends State<ViewCourse> {
             )),
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: MATUtils().customText("Course Name", 18, Colors.black),
+        title: MATUtils()
+            .customText(widget.courses['CourseName'], 18, Colors.black),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -58,23 +62,30 @@ class _ViewCourseState extends State<ViewCourse> {
                     ),
                   ),
                   child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        const Icon(
-                          Icons.play_arrow,
-                          color: Colors.white,
+                        IconButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => WebViewPage(
+                                  title: 'Course',
+                                  Url: widget.courses['EpisodesUrl'][0],
+                                ),
+                              ),
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.play_arrow,
+                            color: Colors.white,
+                          ),
                         ),
-                        MATUtils().customText('07:10/15:50', 13, Colors.black),
+                        MATUtils().customText(
+                            "${widget.courses['Episodes'][0]}",
+                            13,
+                            Colors.white),
                         const SizedBox(
-                          width: 30,
-                        ),
-                        const Icon(
-                          Icons.volume_up_outlined,
-                          color: Colors.white,
-                        ),
-                        const Icon(
-                          Icons.fullscreen,
-                          color: Colors.white,
+                          width: 60,
                         ),
                       ]),
                 ),
@@ -84,30 +95,43 @@ class _ViewCourseState extends State<ViewCourse> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Container(
-                      alignment: Alignment.center,
-                      height: MediaQuery.of(context).size.height / 21,
-                      width: MediaQuery.of(context).size.width / 2.25,
-                      decoration: const BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(25),
+                    GestureDetector(
+                      onTap: () {
+                        isPlayListSlected = true;
+                        setState(() {});
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: MediaQuery.of(context).size.height / 21,
+                        width: MediaQuery.of(context).size.width / 2.25,
+                        decoration: BoxDecoration(
+                          color: isPlayListSlected ? Colors.blue : Colors.grey,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(25),
+                          ),
                         ),
+                        child: MATUtils()
+                            .customText('Platlist 20', 15, Colors.white),
                       ),
-                      child: MATUtils()
-                          .customText('Platlist 20', 15, Colors.white),
                     ),
-                    Container(
-                      alignment: Alignment.center,
-                      height: MediaQuery.of(context).size.height / 21,
-                      width: MediaQuery.of(context).size.width / 2.25,
-                      decoration: const BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(25),
+                    GestureDetector(
+                      onTap: () {
+                        isPlayListSlected = false;
+                        setState(() {});
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: MediaQuery.of(context).size.height / 21,
+                        width: MediaQuery.of(context).size.width / 2.25,
+                        decoration: BoxDecoration(
+                          color: isPlayListSlected ? Colors.grey : Colors.blue,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(25),
+                          ),
                         ),
+                        child:
+                            MATUtils().customText('Theory', 15, Colors.white),
                       ),
-                      child: MATUtils().customText('Theory', 15, Colors.white),
                     )
                   ],
                 ),
@@ -118,49 +142,127 @@ class _ViewCourseState extends State<ViewCourse> {
                 const SizedBox(
                   height: 12,
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.all(20),
-                  width: MediaQuery.of(context).size.width / 1,
-                  decoration: const BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(15),
-                    ),
-                  ),
-                  child: MATUtils().customText(
-                      '01. Get to know about arthifical intelligence deep',
-                      14,
-                      Colors.white),
-                ),
                 const SizedBox(
                   height: 12,
                 ),
-                for (var i = 0; i < 9; i++)
-                  Container(
-                      alignment: Alignment.center,
-                      margin: const EdgeInsets.symmetric(vertical: 5),
-                      padding: const EdgeInsets.all(10),
-                      width: MediaQuery.of(context).size.width / 1,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(15),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          MATUtils().customText(
-                              '0${i + 2}. Get to know about arthifical intelligence deep\n      10:15mins',
-                              14,
-                              Colors.black),
-                          const Icon(
-                            Icons.lock,
-                            color: Colors.grey,
+                if (isPlayListSlected)
+                  Column(
+                    children: [
+                      for (int i = 0;
+                          i < widget.courses['Episodes'].length;
+                          i++)
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => WebViewPage(
+                                      title: 'Course',
+                                      Url: widget.courses['EpisodesUrl'][i],
+                                    )));
+                          },
+                          child: Container(
+                              alignment: Alignment.center,
+                              margin: const EdgeInsets.symmetric(vertical: 5),
+                              padding: const EdgeInsets.all(20),
+                              width: MediaQuery.of(context).size.width / 1,
+                              decoration: BoxDecoration(
+                                color: i <= 0 ? Colors.blue : Colors.white,
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(15),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  MATUtils().customText(
+                                    '0${i + 1}.  ${widget.courses['Episodes'][i]}',
+                                    14,
+                                    i <= 0 ? Colors.white : Colors.black,
+                                  ),
+                                  widget.courses['EpisodeStatus'][i]
+                                      ? const Icon(
+                                          Icons.video_collection,
+                                          color: Colors.white,
+                                        )
+                                      : Row(
+                                          children: const [
+                                            Icon(
+                                              Icons.video_collection,
+                                              color: Colors.grey,
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Icon(
+                                              Icons.lock,
+                                              color: Colors.grey,
+                                            ),
+                                          ],
+                                        ),
+                                ],
+                              )),
+                        )
+                    ],
+                  )
+                else
+                  Column(
+                    children: [
+                      for (int i = 0;
+                          i < widget.courses['Episodes'].length;
+                          i++)
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => WebViewPage(
+                                      title: 'TheoryEpisodes',
+                                      Url: widget.courses['TheoryEpisodes'][i],
+                                    )));
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            margin: const EdgeInsets.symmetric(vertical: 5),
+                            padding: const EdgeInsets.all(20),
+                            width: MediaQuery.of(context).size.width / 1,
+                            decoration: BoxDecoration(
+                              color: i <= 0 ? Colors.blue : Colors.white,
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(15),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                MATUtils().customText(
+                                  '0${i + 1}.  ${widget.courses['Episodes'][i]}',
+                                  14,
+                                  i <= 0 ? Colors.white : Colors.black,
+                                ),
+                                widget.courses['EpisodeStatus'][i]
+                                    ? const Icon(
+                                        Icons.book_online_outlined,
+                                        color: Colors.white,
+                                      )
+                                    : Row(
+                                        children: const [
+                                          Icon(
+                                            Icons.book_online_outlined,
+                                            color: Colors.grey,
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Icon(
+                                            Icons.lock,
+                                            color: Colors.grey,
+                                          ),
+                                        ],
+                                      ),
+                              ],
+                            ),
                           ),
-                        ],
-                      ))
+                        ),
+                    ],
+                  )
               ],
             ),
           ),

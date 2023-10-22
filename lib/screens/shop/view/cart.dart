@@ -5,7 +5,8 @@ import 'package:hidden_lamp/screens/shop/view/bookingAddress.dart';
 import '../../../utils/MATUtils/MATUtils.dart';
 
 class Cart extends StatefulWidget {
-  const Cart({Key? key}) : super(key: key);
+  final List products;
+  const Cart({Key? key, required this.products}) : super(key: key);
 
   @override
   State<Cart> createState() => _CartState();
@@ -37,7 +38,7 @@ class _CartState extends State<Cart> {
                 primary: false,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: 3,
+                itemCount: widget.products.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -55,53 +56,130 @@ class _CartState extends State<Cart> {
                           borderRadius: BorderRadius.all(Radius.circular(25)),
                         ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Center(
-                                  child: Image.asset(
-                                    'assets/iot${index + 1}.jpeg',
-                                    fit: BoxFit.fitWidth,
-                                    height:
-                                        MediaQuery.of(context).size.height / 10,
+                            SizedBox(
+                              width: 100,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Center(
+                                    child: Image.network(
+                                      widget.products[index]['ImageUrl'],
+                                      fit: BoxFit.fitWidth,
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              10,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                             const SizedBox(
-                              height: 5,
+                              width: 70,
                             ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                MATUtils().customText("Artificial Intelligence",
-                                    15, Colors.black),
-                                const SizedBox(
-                                  height: 4,
-                                ),
-                                MATUtils().customText(
-                                    "Artificial Intelligence is powerful\nTechnology",
-                                    11,
-                                    Colors.black),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    MATUtils()
-                                        .customText("₹ 200", 15, Colors.black),
-                                    const SizedBox(
-                                      width: 30,
+                            Flexible(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Flexible(
+                                    child: Container(
+                                      padding: EdgeInsets.only(right: 13.0),
+                                      child: Text(
+                                        widget.products[index]['productName'],
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontSize: 13.0,
+                                          fontFamily: 'Roboto',
+                                          color: Color(0xFF212121),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                                     ),
-                                  ],
-                                ),
-                              ],
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  MATUtils().customText(
+                                      widget.products[index]['description'],
+                                      11,
+                                      Colors.black),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      MATUtils().customText(
+                                          "₹ 200", 15, Colors.black),
+                                      const SizedBox(
+                                        width: 30,
+                                      ),
+                                      Container(
+                                        height: 25,
+                                        width: 60,
+                                        decoration: const BoxDecoration(
+                                          color: Colors.black26,
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(25),
+                                          ),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                if (widget.products[index]
+                                                        ['count'] >
+                                                    1) {
+                                                  Map<String, dynamic> mp =
+                                                      widget.products[index]
+                                                          as Map<String,
+                                                              dynamic>;
+                                                  mp.addAll({
+                                                    'count':
+                                                        widget.products[index]
+                                                                ['count'] -
+                                                            1
+                                                  });
+                                                  setState(() {});
+                                                }
+                                              },
+                                              child: MATUtils().customText(
+                                                  '-', 20, Colors.black),
+                                            ),
+                                            MATUtils().customText(
+                                                widget.products[index]['count']
+                                                    .toString(),
+                                                15,
+                                                Colors.black),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Map<String, dynamic> mp =
+                                                    widget.products[index]
+                                                        as Map<String, dynamic>;
+                                                mp.addAll({
+                                                  'count':
+                                                      widget.products[index]
+                                                              ['count'] +
+                                                          1
+                                                });
+                                                setState(() {});
+                                              },
+                                              child: MATUtils().customText(
+                                                  '+', 15, Colors.black),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -113,7 +191,9 @@ class _CartState extends State<Cart> {
               child: GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => BookingAddress()));
+                      builder: (BuildContext context) => BookingAddress(
+                            products: widget.products,
+                          )));
                 },
                 child: Center(
                   child: Container(

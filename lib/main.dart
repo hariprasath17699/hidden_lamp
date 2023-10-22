@@ -1,8 +1,13 @@
-import 'package:firebase_core/firebase_core.dart';
+import 'dart:developer';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:hidden_lamp/screens/bottomNavigationBar/view/BottomNavigationBar.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hidden_lamp/screens/SplashScreen/view/splashScreen.dart';
+
+import 'Provider/providers.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,7 +16,12 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => LogicState())],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -19,13 +29,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return ChangeNotifierProvider(
+      create: (_) => LogicState(),
+      child: MaterialApp(
+        title: 'Hidden Lamp',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        //home: const CustomBottomNavigationBar(),
+        home: SplashScreen(),
       ),
-      home: const SplashScreen(),
     );
   }
 }

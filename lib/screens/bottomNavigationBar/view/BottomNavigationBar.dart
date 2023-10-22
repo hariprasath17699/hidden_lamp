@@ -76,7 +76,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             });
             switch (index) {
               case 0:
-                home = const Home();
+                home = Home();
                 break;
               case 1:
                 home = const Assignments();

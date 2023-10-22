@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hidden_lamp/screens/authentication/model/user.dart';
 import 'package:hidden_lamp/utils/MATUtils/MATUtils.dart';
+import 'package:hidden_lamp/utils/SharedPreferances/sharedPreferaces.dart';
 
 import '../../bottomNavigationBar/view/BottomNavigationBar.dart';
 
@@ -18,6 +19,11 @@ class SigninController {
         var value = snapShotdata!['password'];
         if (value == user.password) {
           MATUtils().showToast(context, 'Login successful...!');
+          print('===>${snapShotdata['name']}');
+          await sharedPreferances()
+              .saveUserDetails(user.phoneNumber, snapShotdata['name']);
+          var userData = await sharedPreferances().getUserDetails();
+          print(userData);
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (BuildContext context) =>
                   const CustomBottomNavigationBar()));

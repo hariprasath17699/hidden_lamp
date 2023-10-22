@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hidden_lamp/screens/authentication/model/user.dart';
 import 'package:hidden_lamp/utils/MATUtils/MATUtils.dart';
 
+import '../../../utils/SharedPreferances/sharedPreferaces.dart';
 import '../../bottomNavigationBar/view/BottomNavigationBar.dart';
 
 class SignupController {
@@ -34,17 +35,17 @@ class SignupController {
         users
             .doc(user.phoneNumber)
             .set(UserModel().toMap(user))
-            .then((value) => {
-                  Navigator.of(context).pop(),
-                  MATUtils().showToast(context, 'User Registered Successfully'),
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          const CustomBottomNavigationBar()))
-                })
-            .catchError((error) => {
-                  Navigator.of(context).pop(),
-                  MATUtils().showToast(context, 'Failed Try Again'),
-                });
+            .then((value) async {
+          Navigator.of(context).pop();
+          MATUtils().showToast(context, 'User Registered Successfully');
+          sharedPreferances().saveUserDetails(user.phoneNumber,user.name);
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  const CustomBottomNavigationBar()));
+        }).catchError((error) {
+          Navigator.of(context).pop();
+          MATUtils().showToast(context, 'Failed Try Again');
+        });
       }
     } else {
       Navigator.of(context).pop();

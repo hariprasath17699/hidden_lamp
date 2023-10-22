@@ -2,7 +2,10 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hidden_lamp/screens/bottomNavigationBar/view/BottomNavigationBar.dart';
 import 'package:hidden_lamp/screens/welcome/view/welcome.dart';
+
+import '../../../utils/SharedPreferances/sharedPreferaces.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -15,23 +18,19 @@ class _SplashScreenState extends State<SplashScreen> {
   getData() async {
     Timer(
       const Duration(milliseconds: 2000),
-      () => {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (BuildContext context) => const Welcome()))
+      () async {
+        var userData = await sharedPreferances().getUserDetails();
+        print('====>$userData');
+        if (userData['phone'] != null && userData['setStatus'] != '0') {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  const CustomBottomNavigationBar()));
+        } else {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => const Welcome()));
+        }
       },
     );
-  }
-
-  Future<void> getDataa() async {
-    // Get docs from collection reference
-    CollectionReference _collectionRef =
-        FirebaseFirestore.instance.collection('Projects');
-    QuerySnapshot querySnapshot = await _collectionRef.get();
-
-    // Get data from docs and convert map to List
-    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
-
-    print(allData);
   }
 
   @override

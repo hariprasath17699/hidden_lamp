@@ -19,9 +19,6 @@ class ForgotPasswordController {
         return;
       }
       if (snapShot.exists) {
-        Map<String, dynamic>? snapShotdata =
-            snapShot.data() as Map<String, dynamic>?;
-
         MATUtils().showToast(context, 'Request Already Exist!');
       } else {
         forgotPasswords
@@ -51,7 +48,7 @@ class ForgotPasswordController {
         if (snapShotdata!['tempPassword'] == tempPassword) {
           users
               .doc(number)
-              .set({'password': password})
+              .update({'password': password})
               .then((value) => {
                     Navigator.of(context).pop(),
                     MATUtils().showToast(context, 'Password Reset Successful'),
