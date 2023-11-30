@@ -19,11 +19,11 @@ class SigninController {
         var value = snapShotdata!['password'];
         if (value == user.password) {
           MATUtils().showToast(context, 'Login successful...!');
-          print('===>${snapShotdata['name']}');
+
           await sharedPreferances()
               .saveUserDetails(user.phoneNumber, snapShotdata['name']);
           var userData = await sharedPreferances().getUserDetails();
-          print(userData);
+
           Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (BuildContext context) =>
                   const CustomBottomNavigationBar()));

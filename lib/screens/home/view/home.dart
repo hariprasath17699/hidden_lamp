@@ -30,10 +30,8 @@ class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      getData();
-      setState(() {});
-    });
+    getData();
+
     super.initState();
   }
 
@@ -41,7 +39,7 @@ class _HomeState extends State<Home> {
   getData() async {
     LogicState userProvider = Provider.of(context, listen: false);
     userData = await sharedPreferances().getUserDetails();
-    await userProvider.fetchData(userData['phone']);
+    var data = await userProvider.fetchData(userData['phone']);
     setState(() {});
   }
 
@@ -145,6 +143,9 @@ class _HomeState extends State<Home> {
                         ),
                         ListTile(
                           onTap: () async {
+                            LogicState userProvider =
+                                Provider.of(context, listen: false);
+                            await userProvider.clearAllData();
                             await sharedPreferances()
                                 .clearSharePreferances(context);
                           },
@@ -161,12 +162,14 @@ class _HomeState extends State<Home> {
                     ),
                   ],
                 ),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Image(
-                    height: MediaQuery.of(context).size.height / 3.5,
-                    image: const AssetImage(
-                      'assets/navv-01.png',
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: Image(
+                      height: MediaQuery.of(context).size.height / 5,
+                      image: const AssetImage(
+                        'assets/navv-01.png',
+                      ),
                     ),
                   ),
                 )
@@ -198,7 +201,7 @@ class _HomeState extends State<Home> {
                   height: 15,
                 ),
                 isLoading
-                    ? const Center(child: Text("No Stories"))
+                    ? const Center(child: CircularProgressIndicator())
                     : SizedBox(
                         height: MediaQuery.of(context).size.height /
                             10, // Set the height of the horizontal list
@@ -255,7 +258,7 @@ class _HomeState extends State<Home> {
                       .customText("Continue Courses", 18, Colors.black),
                 ),
                 isLoading
-                    ? const Center(child: Text("No Course's"))
+                    ? const Center(child: CircularProgressIndicator())
                     : Expanded(
                         child: SizedBox(
                           height: MediaQuery.of(context).size.height / 5.5,
@@ -317,12 +320,12 @@ class _HomeState extends State<Home> {
                                             ),
                                           ),
                                           const SizedBox(
-                                            height: 5,
+                                            height: 15,
                                           ),
-                                          Expanded(
+                                          SizedBox(
                                             child: MATUtils().customText(
                                                 "View Full Course",
-                                                13,
+                                                11,
                                                 Colors.white),
                                           )
                                         ],
@@ -393,7 +396,7 @@ class _HomeState extends State<Home> {
                       .customText("Project of the week", 18, Colors.black),
                 ),
                 isLoading
-                    ? const Center(child: Text("No Projects"))
+                    ? const Center(child: CircularProgressIndicator())
                     : SizedBox(
                         height: MediaQuery.of(context).size.height / 5.5,
                         child: ListView.builder(
@@ -515,7 +518,7 @@ class _HomeState extends State<Home> {
                       .customText("Newly Added Projects", 18, Colors.black),
                 ),
                 isLoading
-                    ? const Center(child: Text("No Projects"))
+                    ? const Center(child: CircularProgressIndicator())
                     : SizedBox(
                         height: MediaQuery.of(context).size.height / 5.5,
                         child: ListView.builder(

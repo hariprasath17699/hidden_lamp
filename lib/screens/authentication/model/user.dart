@@ -1,5 +1,3 @@
-
-
 class User {
   final String name;
   final String rollNumber;
@@ -29,22 +27,23 @@ class User {
     required this.password,
   });
 }
-class UserModel{
-Map<String, dynamic> toMap(data) {
-  return {
-    'name': data.name,
-    'rollNumber': data.rollNumber,
-    'guardianName': data.guardianName,
-    'phoneNumber': data.phoneNumber,
-    'className': data.className,
-    'section': data.section,
-    'school': data.school,
-    'address': data.address,
-    'state': data.state,
-    'city': data.city,
-    'pincode': data.pincode,
-    'password': data.password,
-  };
-}
-}
 
+class UserModel {
+  Map<String, dynamic> toMap(data) {
+    return {
+      'name': data.name,
+      'rollNumber': data.rollNumber,
+      'guardianName': data.guardianName,
+      'phoneNumber': data.phoneNumber,
+      'className': data.className,
+      'section': data.section,
+      'school': data.school,
+      'address': data.address,
+      'state': data.state,
+      'city': data.city,
+      'pincode': data.pincode,
+      'password': data.password,
+      'userType': 'UserType',
+    };
+  }
+}

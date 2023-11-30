@@ -12,14 +12,20 @@ class LogicState extends ChangeNotifier {
   var _assignments;
   var _projectsOfTheWeek;
   var _productsData;
+  var _notifications;
+  var _chat;
 
   bool _fetchingData = true;
   bool _fetchingAssignmentsData = true;
   bool _fetchingproductsData = true;
+  bool _fetchingnotificationsData = true;
+  bool _fetchingChatData = true;
 
   get getReelsData => _reels;
   get getCoursesData => _courses;
   get isLoading => _fetchingData;
+  get isChatLoading => _fetchingChatData;
+  get isNotificationsLoading => _fetchingnotificationsData;
   get isAssignmentsLoading => _fetchingAssignmentsData;
   get isProductsLoading => _fetchingproductsData;
   get getuserData => _userData;
@@ -27,14 +33,26 @@ class LogicState extends ChangeNotifier {
   get getAssignmentsData => _assignments;
   get getprojectsOfTheWeekData => _projectsOfTheWeek;
   get getProductsData => _productsData;
+  get getNotifications => _notifications;
+  get getChat => _chat;
   Future<void> fetchData(String phoneNumber) async {
-    if (_reels == null || _courses || _projects || _projectsOfTheWeek) {
+    print('heyyy');
+    print(_reels);
+    print(_projects);
+    print(_projectsOfTheWeek);
+    if (_reels == null ||
+        _courses == null ||
+        _courses.length == 0 ||
+        _projects == null ||
+        _projectsOfTheWeek == null) {
+      print('heyyy22323322');
       _fetchingData = true;
       notifyListeners();
       _reels = await fetchReels();
       _courses = await fetchCourses(phoneNumber);
       _projects = await fetchProjects();
       _projectsOfTheWeek = await fetchProjectOfTheWeeks();
+
       _fetchingData = false;
       notifyListeners();
     }
@@ -48,6 +66,24 @@ class LogicState extends ChangeNotifier {
       _fetchingAssignmentsData = false;
       notifyListeners();
     }
+  }
+
+  Future<void> fetchNotificationData() async {
+    if (_notifications == null) {
+      _fetchingnotificationsData = true;
+      notifyListeners();
+      _notifications = await fetchNotifications();
+      _fetchingnotificationsData = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> fetchChatData() async {
+    _fetchingChatData = true;
+    notifyListeners();
+    _chat = await fetchChat();
+    _fetchingChatData = false;
+    notifyListeners();
   }
 
   Future<void> fetchUserData(String phoneNumber) async {
@@ -80,6 +116,28 @@ class LogicState extends ChangeNotifier {
     return reels;
   }
 
+  Future<dynamic> fetchNotifications() async {
+    CollectionReference notificationsCollectionRef =
+        FirebaseFirestore.instance.collection('Notifications');
+    QuerySnapshot querySnapshot = await notificationsCollectionRef.get();
+
+    var notifications = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    return notifications;
+  }
+
+  Future<dynamic> fetchChat() async {
+    Query<Map<String, dynamic>> chatCollectionRef = FirebaseFirestore.instance
+        .collection('Chat')
+        .orderBy('TimeStamp', descending: false);
+    QuerySnapshot querySnapshot = await chatCollectionRef.get();
+
+    var chat = querySnapshot.docs.map((doc) => doc.data()).toList();
+    print("------>$chat");
+
+    return chat;
+  }
+
   Future<dynamic> fetchProducts() async {
     CollectionReference productsCollectionRef =
         FirebaseFirestore.instance.collection('Products');
@@ -97,6 +155,7 @@ class LogicState extends ChangeNotifier {
     QuerySnapshot querySnapshot = await coursesCollectionRef.get();
     List courses = querySnapshot.docs.map((doc) => doc.data()).toList();
     List finalCourses = [];
+    print('----->$courses');
 
     DocumentReference documentRef =
         FirebaseFirestore.instance.collection('Users').doc(phoneNumber);
@@ -117,6 +176,8 @@ class LogicState extends ChangeNotifier {
         }
       },
     );
+
+    print('===>$finalCourses');
 
     return finalCourses;
   }
@@ -163,7 +224,6 @@ class LogicState extends ChangeNotifier {
         print('Document does not exist');
       }
     });
-    print(data);
     return data;
   }
 
@@ -183,5 +243,19 @@ class LogicState extends ChangeNotifier {
     QuerySnapshot querySnapshot = await weekProjectsCollectionRef.get();
     var projectOfTheWeek = querySnapshot.docs.map((doc) => doc.data()).toList();
     return projectOfTheWeek;
+  }
+
+  Future<void> clearAllData() async {
+    _fetchingData = true;
+    _reels = null;
+    _courses = null;
+    _userData = null;
+    _projects = null;
+    _assignments = null;
+    _projectsOfTheWeek = null;
+    _productsData = null;
+    _notifications = null;
+    _chat = null;
+    notifyListeners();
   }
 }

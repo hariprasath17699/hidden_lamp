@@ -6,7 +6,7 @@ class sharedPreferances {
   saveUserDetails(String phoneNumber, String name) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('phoneNumber', phoneNumber);
-    prefs.setString('status', phoneNumber);
+    prefs.setString('status', '1');
     prefs.setString('name', name);
 
     String? setStatus = prefs.getString("status");

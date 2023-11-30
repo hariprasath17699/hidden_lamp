@@ -72,7 +72,7 @@ class _ProfileState extends State<Profile> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: isLoading
-                ? const Center(child: Text("No Data"))
+                ? const Center(child: CircularProgressIndicator())
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,10 +141,9 @@ class _ProfileState extends State<Profile> {
                       ),
                       Center(
                         child: Container(
-                          margin: EdgeInsets.symmetric(vertical: 20),
+                          margin: EdgeInsets.all(20),
                           width: MediaQuery.of(context).size.width / 1.8,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 25, vertical: 10),
+                          padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                               color: Colors.white,
                               border: Border.all(width: 3, color: Colors.blue),
@@ -154,7 +153,7 @@ class _ProfileState extends State<Profile> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 MATUtils().customText(
-                                    "Monthly Report", 18, Colors.blue),
+                                    "Monthly Report", 14, Colors.blue),
                                 const Icon(
                                   Icons.download,
                                   color: Colors.blue,
@@ -162,43 +161,43 @@ class _ProfileState extends State<Profile> {
                               ]),
                         ),
                       ),
-                      Center(
-                          child: MATUtils()
-                              .customText("Activity Time", 18, Colors.blue)),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Center(
-                        child: MATUtils().customText(
-                            "Average time you spent per day learning in this app",
-                            15,
-                            Colors.blue),
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          for (var i = 0; i < 7; i++)
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.symmetric(
-                                    horizontal: 3, vertical: 20),
-                                width: MediaQuery.of(context).size.width / 9,
-                                height: MediaQuery.of(context).size.height /
-                                    sizes[i],
-                                decoration: BoxDecoration(
-                                  color: colors[i],
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10)),
-                                ),
-                                child: Center(
-                                    child: Text(
-                                  days[i],
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                              ),
-                            ),
-                        ],
-                      ),
+                      // Center(
+                      //     child: MATUtils()
+                      //         .customText("Activity Time", 18, Colors.blue)),
+                      // const SizedBox(
+                      //   height: 5,
+                      // ),
+                      // Center(
+                      //   child: MATUtils().customText(
+                      //       "Average time you spent per day learning in this app",
+                      //       15,
+                      //       Colors.blue),
+                      // ),
+                      // Row(
+                      //   crossAxisAlignment: CrossAxisAlignment.end,
+                      //   children: [
+                      //     for (var i = 0; i < 7; i++)
+                      //       Expanded(
+                      //         child: Container(
+                      //           margin: const EdgeInsets.symmetric(
+                      //               horizontal: 3, vertical: 20),
+                      //           width: MediaQuery.of(context).size.width / 9,
+                      //           height: MediaQuery.of(context).size.height /
+                      //               sizes[i],
+                      //           decoration: BoxDecoration(
+                      //             color: colors[i],
+                      //             borderRadius: const BorderRadius.all(
+                      //                 Radius.circular(10)),
+                      //           ),
+                      //           child: Center(
+                      //               child: Text(
+                      //             days[i],
+                      //             style: const TextStyle(color: Colors.white),
+                      //           )),
+                      //         ),
+                      //       ),
+                      //   ],
+                      // ),
                       const SizedBox(
                         height: 10,
                       ),

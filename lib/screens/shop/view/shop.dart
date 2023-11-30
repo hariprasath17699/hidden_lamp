@@ -56,10 +56,12 @@ class _ShopState extends State<Shop> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Center(
-                      child: MATUtils().customText('Shop', 22, Colors.black),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: MATUtils().customText('Shop', 22, Colors.black),
+                      ),
                     ),
-                    IconButton(onPressed: () {}, icon: const Icon(Icons.search))
                   ],
                 ),
               ),
