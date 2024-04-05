@@ -43,6 +43,7 @@ android {
     }
 
     defaultConfig {
+        compileSdkVersion 31
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.hiddenlamp.hidden_lamp"
         minSdkVersion 19
