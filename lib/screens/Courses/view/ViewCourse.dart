@@ -28,7 +28,7 @@ class _ViewCourseState extends State<ViewCourse> {
         backgroundColor: Colors.white,
         centerTitle: true,
         title: MATUtils()
-            .customText(widget.courses['CourseName'], 18, Colors.black),
+            .customText(widget.courses['Course Name'], 18, Colors.black),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -70,7 +70,7 @@ class _ViewCourseState extends State<ViewCourse> {
                               MaterialPageRoute(
                                 builder: (context) => WebViewPage(
                                   title: 'Course',
-                                  Url: widget.courses['EpisodesUrl'][0],
+                                  Url: widget.courses['pdf'],
                                 ),
                               ),
                             );
@@ -81,7 +81,7 @@ class _ViewCourseState extends State<ViewCourse> {
                           ),
                         ),
                         MATUtils().customText(
-                            "${widget.courses['Episodes'][0]}",
+                            "${widget.courses['noofEpisodes']}",
                             13,
                             Colors.white),
                         const SizedBox(
@@ -145,124 +145,10 @@ class _ViewCourseState extends State<ViewCourse> {
                 const SizedBox(
                   height: 12,
                 ),
-                if (isPlayListSlected)
-                  Column(
-                    children: [
-                      for (int i = 0;
-                          i < widget.courses['Episodes'].length;
-                          i++)
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => WebViewPage(
-                                      title: 'Course',
-                                      Url: widget.courses['EpisodesUrl'][i],
-                                    )));
-                          },
-                          child: Container(
-                              alignment: Alignment.center,
-                              margin: const EdgeInsets.symmetric(vertical: 5),
-                              padding: const EdgeInsets.all(20),
-                              width: MediaQuery.of(context).size.width / 1,
-                              decoration: BoxDecoration(
-                                color: i <= 0 ? Colors.blue : Colors.white,
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(15),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  MATUtils().customText(
-                                    '0${i + 1}.  ${widget.courses['Episodes'][i]}',
-                                    14,
-                                    i <= 0 ? Colors.white : Colors.black,
-                                  ),
-                                  widget.courses['EpisodeStatus'][i]
-                                      ? const Icon(
-                                          Icons.video_collection,
-                                          color: Colors.white,
-                                        )
-                                      : Row(
-                                          children: const [
-                                            Icon(
-                                              Icons.video_collection,
-                                              color: Colors.grey,
-                                            ),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Icon(
-                                              Icons.lock,
-                                              color: Colors.grey,
-                                            ),
-                                          ],
-                                        ),
-                                ],
-                              )),
-                        )
-                    ],
-                  )
-                else
-                  Column(
-                    children: [
-                      for (int i = 0;
-                          i < widget.courses['Episodes'].length;
-                          i++)
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => WebViewPage(
-                                      title: 'TheoryEpisodes',
-                                      Url: widget.courses['TheoryEpisodes'][i],
-                                    )));
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            margin: const EdgeInsets.symmetric(vertical: 5),
-                            padding: const EdgeInsets.all(20),
-                            width: MediaQuery.of(context).size.width / 1,
-                            decoration: BoxDecoration(
-                              color: i <= 0 ? Colors.blue : Colors.white,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(15),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                MATUtils().customText(
-                                  '0${i + 1}.  ${widget.courses['Episodes'][i]}',
-                                  14,
-                                  i <= 0 ? Colors.white : Colors.black,
-                                ),
-                                widget.courses['EpisodeStatus'][i]
-                                    ? const Icon(
-                                        Icons.book_online_outlined,
-                                        color: Colors.white,
-                                      )
-                                    : Row(
-                                        children: const [
-                                          Icon(
-                                            Icons.book_online_outlined,
-                                            color: Colors.grey,
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Icon(
-                                            Icons.lock,
-                                            color: Colors.grey,
-                                          ),
-                                        ],
-                                      ),
-                              ],
-                            ),
-                          ),
-                        ),
-                    ],
-                  )
+             
+                
+              
+    
               ],
             ),
           ),

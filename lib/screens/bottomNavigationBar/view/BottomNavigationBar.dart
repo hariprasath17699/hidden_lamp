@@ -23,7 +23,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
   @override
   void initState() {
-    home = Home();
+    home =  Home();
     super.initState();
   }
 
@@ -76,7 +76,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             });
             switch (index) {
               case 0:
-                home = Home();
+                home = const Home();
                 break;
               case 1:
                 home = const Assignments();

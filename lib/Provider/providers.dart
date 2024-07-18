@@ -15,7 +15,7 @@ class LogicState extends ChangeNotifier {
   var _notifications;
   var _chat;
 
-  bool _fetchingData = true;
+  bool _fetchingData = false;
   bool _fetchingAssignmentsData = true;
   bool _fetchingproductsData = true;
   bool _fetchingnotificationsData = true;
@@ -46,7 +46,6 @@ class LogicState extends ChangeNotifier {
         _projects == null ||
         _projectsOfTheWeek == null) {
       print('heyyy22323322');
-      _fetchingData = true;
       notifyListeners();
       _reels = await fetchReels();
       _courses = await fetchCourses(phoneNumber);
@@ -108,11 +107,11 @@ class LogicState extends ChangeNotifier {
 
   Future<dynamic> fetchReels() async {
     CollectionReference reelsCollectionRef =
-        FirebaseFirestore.instance.collection('Stories');
+        FirebaseFirestore.instance.collection('Reels');
     QuerySnapshot querySnapshot = await reelsCollectionRef.get();
 
     var reels = querySnapshot.docs.map((doc) => doc.data()).toList();
-
+  _fetchingData = false;
     return reels;
   }
 
@@ -165,11 +164,9 @@ class LogicState extends ChangeNotifier {
         if (documentSnapshot.exists) {
           userDetails = documentSnapshot.data() as Map<String, dynamic>;
           for (var i = 0; i < courses.length; i++) {
-            if (courses[i]['schools'].contains(userDetails['school']) &&
-                courses[i]['applicableClasses']
-                    .contains(userDetails['className'])) {
+          
               finalCourses.add((courses[i]));
-            }
+          
           }
         } else {
           print('Courses Not Avalible');
@@ -196,11 +193,9 @@ class LogicState extends ChangeNotifier {
         if (documentSnapshot.exists) {
           userDetails = documentSnapshot.data() as Map<String, dynamic>;
           for (var i = 0; i < assignments.length; i++) {
-            if (assignments[i]['school'].contains(userDetails['school']) &&
-                assignments[i]['applicableClasses']
-                    .contains(userDetails['className'])) {
+           
               finalAssignments.add((assignments[i]));
-            }
+          
           }
         } else {
           print('Assignments Not Avalible');
@@ -246,7 +241,6 @@ class LogicState extends ChangeNotifier {
   }
 
   Future<void> clearAllData() async {
-    _fetchingData = true;
     _reels = null;
     _courses = null;
     _userData = null;

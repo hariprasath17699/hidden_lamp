@@ -114,7 +114,7 @@ class _CoursesState extends State<Courses> {
                   primary: false,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: coursesData.length,
+                  itemCount: coursesData.length ?? 0,
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
@@ -207,7 +207,7 @@ class _CoursesState extends State<Courses> {
                                   children: [
                                     Center(
                                       child: Image.network(
-                                        coursesData[index]['ImageUrl'],
+                                        coursesData[index]['image'],
                                         fit: BoxFit.fitWidth,
                                         height:
                                             MediaQuery.of(context).size.height /
@@ -224,7 +224,7 @@ class _CoursesState extends State<Courses> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     MATUtils().customText(
-                                        coursesData[index]['CourseName'],
+                                        coursesData[index]['Course Name'],
                                         15,
                                         Colors.white),
                                     const SizedBox(
@@ -242,7 +242,7 @@ class _CoursesState extends State<Courses> {
                                       height: 4,
                                     ),
                                     MATUtils().customText(
-                                        "Total Episodes: ${coursesData[index]['TotalEpisodes']}",
+                                        "Total Episodes: ${coursesData[index]['noofEpisodes']}",
                                         15,
                                         Colors.white),
                                   ],

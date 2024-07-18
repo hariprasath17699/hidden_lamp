@@ -219,8 +219,7 @@ class _HomeState extends State<Home> {
                                       Navigator.of(context)
                                           .push(MaterialPageRoute(
                                               builder: (context) => Story(
-                                                    stories: reelsData[index]
-                                                        ['stories'],
+                                                    stories: reelsData[index],
                                                   )));
                                     },
                                     child: CircleAvatar(
@@ -235,14 +234,14 @@ class _HomeState extends State<Home> {
                                           backgroundColor: Colors.white,
                                           radius: 30,
                                           backgroundImage: NetworkImage(
-                                              reelsData[index]['storyUrl']),
+                                              reelsData[index]['video']),
                                         ),
                                       ),
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      '${reelsData[index]['title']}',
+                                      '${reelsData[index]['Reel title']}',
                                       style: const TextStyle(fontSize: 12),
                                     ),
                                   ),
@@ -265,7 +264,7 @@ class _HomeState extends State<Home> {
                           child: ListView.builder(
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
-                            itemCount: coursesData.length,
+                            itemCount: coursesData.length ?? 0,
                             itemBuilder: (context, index) {
                               return Stack(
                                 children: [
@@ -298,7 +297,7 @@ class _HomeState extends State<Home> {
                                               children: [
                                                 MATUtils().customText(
                                                     coursesData[index]
-                                                        ['CourseName'],
+                                                        ['Course Name'],
                                                     13,
                                                     Colors.white),
                                                 MATUtils().customText(
@@ -311,7 +310,7 @@ class _HomeState extends State<Home> {
                                           Opacity(
                                             opacity: 0.6,
                                             child: Image.network(
-                                              coursesData[index]['ImageUrl'],
+                                              coursesData[index]['image'],
                                               fit: BoxFit.fitWidth,
                                               height: MediaQuery.of(context)
                                                       .size
@@ -332,58 +331,7 @@ class _HomeState extends State<Home> {
                                       ),
                                     ),
                                   ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.only(top: 0),
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                1.7,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                14,
-                                        padding: const EdgeInsets.all(0),
-                                        child: ListView.builder(
-                                          itemCount: coursesData[index]
-                                                  ['EpisodeStatus']
-                                              .length,
-                                          shrinkWrap: true,
-                                          scrollDirection: Axis.horizontal,
-                                          itemBuilder:
-                                              ((context, internalIndex) {
-                                            return Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 8.0),
-                                              child: GestureDetector(
-                                                onTap: () {},
-                                                child: CircleAvatar(
-                                                  radius: 20,
-                                                  backgroundColor:
-                                                      Colors.white54,
-                                                  child: coursesData[index]
-                                                              ['EpisodeStatus']
-                                                          [internalIndex]
-                                                      ? Text('${internalIndex}')
-                                                      : const Icon(
-                                                          Icons.lock,
-                                                          color: Colors.black26,
-                                                        ),
-                                                ),
-                                              ),
-                                            );
-                                          }),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 25,
-                                      )
-                                    ],
-                                  ),
+                                
                                 ],
                               );
                             },
@@ -402,7 +350,7 @@ class _HomeState extends State<Home> {
                         child: ListView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
-                          itemCount: projectOfTheWeekData.length,
+                          itemCount: projectOfTheWeekData.length?? 0,
                           itemBuilder: (context, index) {
                             return Container(
                               margin: const EdgeInsets.only(right: 10),
@@ -524,7 +472,7 @@ class _HomeState extends State<Home> {
                         child: ListView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
-                          itemCount: projects.length,
+                          itemCount: projects.length ?? 0,
                           itemBuilder: (context, index) {
                             return Container(
                               margin: const EdgeInsets.only(right: 20),
@@ -536,7 +484,7 @@ class _HomeState extends State<Home> {
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(30),
                                         child: Image.network(
-                                          projects[index]['ImageUrl'],
+                                          projects[index]['image'],
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height /
@@ -554,7 +502,7 @@ class _HomeState extends State<Home> {
                                           alignment: Alignment.center,
                                           color: Colors.white,
                                           child: MATUtils().customText(
-                                              projects[index]['ProjectName'],
+                                              projects[index]['title'],
                                               13,
                                               Colors.black),
                                         ),
